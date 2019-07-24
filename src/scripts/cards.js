@@ -10,46 +10,36 @@
 // Pro tip: The card's id attribute, and the button's id attribute should share some common value.Then, when the button is clicked, find the corresponding parent DOM component.Remember the split() method on a string ? That will be helpful.
 
 const createButton = document.querySelector('#submit-button');
+const cardList = document.querySelector('.card__list');
 
 // Grab current value of the text input area and pass into a function to create a new card
 const createCard = (event) => {
     const textArea = document.querySelector('#text-area');
     createHTML(textArea.value);
-
-    // Add unique class for button
-    const lastIndex = document.querySelectorAll('.delete__button').length - 1;
-    const lastButton = document.querySelectorAll('.delete__button')[lastIndex];
-    const uniqueClass = `delete__${lastIndex}`;
-    lastButton.classList.add(uniqueClass);
-    console.log(lastButton.classList);
-
-    // Add event listener to all buttons
-    const allButtons = document.querySelectorAll('.delete__button');
-    console.log(allButtons);
-
-    allButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            button.parentElement.parentElement.removeChild(button.parentElement);
-        });
-    });
-
-    // // Add event listener for the newly created delete button
-    // lastButton.addEventListener('click', (event) => {
-    //     lastButton.parentElement.parentElement.removeChild(lastButton.parentElement);
-    // });
 };
 
 
 // Creates new HTML element with the text that is passed in as an argument and adds it to the page
+
+let buttonID = 0;
+
 const createHTML = (text) => {
     const cardContainer = document.querySelector('.card__list');
     const newHTML = `<section class="card__item">
                         <p class="card__item">${text}</p>
-                        <button type="submit" id="delete-button" class="delete__button">Delete</button>
+                        <button type="submit" id="delete-button" class="delete__button delete${buttonID}">Delete</button>
                     </section>`;
     cardContainer.innerHTML += newHTML;
+    buttonID += 1;
 };
 
 
 createButton.addEventListener('click', createCard);
+
+cardList.addEventListener('click', (event) => {
+    classArray = event.target.classList;
+    uniqueClass = classArray[1];
+    const button = document.querySelector(`.${uniqueClass}`)
+    button.parentElement.parentElement.removeChild(button.parentElement);
+});
 
