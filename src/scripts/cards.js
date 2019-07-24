@@ -15,26 +15,30 @@ const createButton = document.querySelector('#submit-button');
 const createCard = (event) => {
     const textArea = document.querySelector('#text-area');
     createHTML(textArea.value);
-    setupDelete();
-};
 
-// 
-const setupDelete = () => {
+    // Add unique class for button
     const lastIndex = document.querySelectorAll('.delete__button').length - 1;
-    console.log(lastIndex);
     const lastButton = document.querySelectorAll('.delete__button')[lastIndex];
-    lastButton.addEventListener('click', deleteItem);
+    const uniqueClass = `delete__${lastIndex}`;
+    lastButton.classList.add(uniqueClass);
+    console.log(lastButton.classList);
+
+    // Add event listener to all buttons
+    const allButtons = document.querySelectorAll('.delete__button');
+    console.log(allButtons);
+
+    allButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            button.parentElement.parentElement.removeChild(button.parentElement);
+        });
+    });
+
+    // // Add event listener for the newly created delete button
+    // lastButton.addEventListener('click', (event) => {
+    //     lastButton.parentElement.parentElement.removeChild(lastButton.parentElement);
+    // });
 };
 
-const deleteItem = (event) => {
-    console.log('You clicked the last button');
-    const lastIndex = document.querySelectorAll('.delete__button').length - 1;
-    const deleteButton = document.querySelectorAll('.delete__button')[lastIndex];
-    const cardItem = deleteButton.parentElement;
-    console.log(cardItem);
-    const cardContainer = document.querySelector('.card__list');
-    cardContainer.removeChild(cardItem);
-}
 
 // Creates new HTML element with the text that is passed in as an argument and adds it to the page
 const createHTML = (text) => {
