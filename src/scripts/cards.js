@@ -10,13 +10,42 @@
 // Pro tip: The card's id attribute, and the button's id attribute should share some common value.Then, when the button is clicked, find the corresponding parent DOM component.Remember the split() method on a string ? That will be helpful.
 
 const createButton = document.querySelector('#submit-button');
-createButton.addEventListener('click', createCard);
 
+// Grab current value of the text input area and pass into a function to create a new card
 const createCard = (event) => {
     const textArea = document.querySelector('#text-area');
     createHTML(textArea.value);
+    setupDelete();
+};
+
+// 
+const setupDelete = () => {
+    const lastIndex = document.querySelectorAll('.delete__button').length - 1;
+    console.log(lastIndex);
+    const lastButton = document.querySelectorAll('.delete__button')[lastIndex];
+    lastButton.addEventListener('click', deleteItem);
+};
+
+const deleteItem = (event) => {
+    console.log('You clicked the last button');
+    const lastIndex = document.querySelectorAll('.delete__button').length - 1;
+    const deleteButton = document.querySelectorAll('.delete__button')[lastIndex];
+    const cardItem = deleteButton.parentElement;
+    console.log(cardItem);
+    const cardContainer = document.querySelector('.card__list');
+    cardContainer.removeChild(cardItem);
 }
 
+// Creates new HTML element with the text that is passed in as an argument and adds it to the page
 const createHTML = (text) => {
-    
-}
+    const cardContainer = document.querySelector('.card__list');
+    const newHTML = `<section class="card__item">
+                        <p class="card__item">${text}</p>
+                        <button type="submit" id="delete-button" class="delete__button">Delete</button>
+                    </section>`;
+    cardContainer.innerHTML += newHTML;
+};
+
+
+createButton.addEventListener('click', createCard);
+
